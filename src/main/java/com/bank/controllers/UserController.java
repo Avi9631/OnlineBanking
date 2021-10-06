@@ -119,7 +119,7 @@ public class UserController {
 			@RequestParam("ifsc") String ifsc, @RequestParam("accname") String accname,
 			@RequestParam("amount") float amount,  @RequestParam("mode") String mode,
 			HttpServletRequest request) {
-		if (!userDAO.findAccount(accno).isEmpty()) {
+		if (userDAO.findAccount(accno).get()!=null) {
 			User user = userDAO.getUser(id);
 			if (user.getAccount().getBal() > 0) {
 				Transaction trans = new Transaction();
