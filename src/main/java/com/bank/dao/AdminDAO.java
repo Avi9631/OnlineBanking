@@ -41,5 +41,11 @@ public class AdminDAO {
 		return list;
 	}
 	
+	public void closeAcccount(int id) {
+		userRepo.deleteById(id);
+
+	}
 	
+	
+
 }
