@@ -46,6 +46,8 @@ public class AdminDAO {
 
 	}
 	
-	
+	public User getUser(int id) {
+		return userRepo.findById(id).get();
+	}
 
 }
