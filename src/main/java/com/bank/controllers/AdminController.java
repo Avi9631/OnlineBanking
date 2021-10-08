@@ -28,6 +28,13 @@ public class AdminController {
 		return "adminshowusers";
 	}
 	
+	@GetMapping("/show")
+	public void showTransactOfUser(@RequestParam("id") int id, HttpServletRequest request) {
+		User user= adminDAO.getUser(id);
+		request.setAttribute("userdetail", user);
+		request.setAttribute("usertransac", adminDAO.fetchTransactionOfUser(user.getAccount().getAccno()));
+		
+	}
 	
 	
 
