@@ -26,6 +26,31 @@ public class AdminDAO {
 		return userRepo.findAll();
 	}
 	
+
+	public List<Transaction> fetchTransactionOfUser(int acc) {
+		List<Transaction> list= transacRepo.findAllByFrom(acc);
+		List<Transaction> list2= transacRepo.findAllByTo(acc);
+		for(Transaction t: list) {
+			t.setType("DEBIT");
+		}
+		for(Transaction t: list2) {
+			t.setType("CREDIT");
+		}
+		
+		list.addAll(list2);
+		list2=null;
+		return list;
+	}
 	
+	public void closeAcccount(int id) {
+//		Optional<User> user= userRepo.findById(id);
+		userRepo.deleteById(id);
+//		accRepo.deleteById(user.get().getAccount().getAccno());
+	}
+	
+	public User getUser(int id) {
+		return userRepo.findById(id).get();
+	}
+
 
 }

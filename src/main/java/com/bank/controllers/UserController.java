@@ -139,9 +139,11 @@ public class UserController {
 	@PostMapping("/transfer")
 	private String transferFund(@RequestParam("id") int id, @RequestParam("accno") int accno,
 			@RequestParam("ifsc") String ifsc, @RequestParam("accname") String accname,
+
 			@RequestParam("amount") float amount, @RequestParam("mode") String mode, HttpServletRequest request) {
 
-		if (userDAO.findAccount(accno).get() != null) {
+		
+		if (userDAO.findAccount(accno).get()!=null) {
 
 			User user = userDAO.getUser(id);
 			if (user.getAccount().getBal() > 0) {
@@ -166,5 +168,6 @@ public class UserController {
 		}
 
 	}
+			
 
 }
