@@ -36,6 +36,11 @@ public class AdminController {
 		
 	}
 	
+	@GetMapping("/close")
+	public String closeAccount(@RequestParam("id") int  id) {
+		adminDAO.closeAcccount(id);
+		return "redirect:/showall";
+	}
 	
 
 }
