@@ -76,25 +76,25 @@ public class UserController {
 
 		User user = new User(name, email, password, pin, phone, "USER", state, address, "Not Approved", aadharproof,
 				null);
-		String ifsc="";
+		String ifsc = "";
 		switch (state) {
 		case "Jharkhand":
-			ifsc= "JHO5678";
+			ifsc = "JHO5678";
 			break;
 		case "West Bengal":
-			ifsc= "WBO5678";
+			ifsc = "WBO5678";
 			break;
 		case "Orissa":
-			ifsc= "ORO5678";
+			ifsc = "ORO5678";
 			break;
 		case "Andhra Pradesh":
-			ifsc= "APO5678";
+			ifsc = "APO5678";
 			break;
 		default:
 			break;
 		}
-		Account account = new Account(10000000 + new Random().nextInt(90000000), LocalDateTime.now(), "SAVING", ifsc,
-				0, user);
+		Account account = new Account(10000000 + new Random().nextInt(90000000), LocalDateTime.now(), "SAVING", ifsc, 0,
+				user);
 		user.setAccount(account);
 		userDAO.addUserToDB(user, account);
 		return "redirect:/";
@@ -114,12 +114,35 @@ public class UserController {
 		return "profile";
 	}
 
+	@GetMapping("/passbook")
+	private String getAllTransaction(@RequestParam("id") int id, HttpServletRequest request) {
+		request.setAttribute("list", userDAO.getAllTransactions(id));
+		return "passbook";
+	}
+
+	@PostMapping("/editprofile")
+	private String editProfile(@RequestParam("email") String email, @RequestParam("password") String password,
+			@RequestParam("name") String name, @RequestParam("phone") String phone,
+			@RequestParam("address") String address, @RequestParam("id") int id, @RequestParam("pin") int pin) {
+		User u = userDAO.getUser(id);
+		u.setEmail(email);
+		u.setName(name);
+		u.setAddress(address);
+		u.setPassword(password);
+		u.setPin(String.valueOf(pin));
+		u.setPhone(phone);
+
+		userDAO.updateUser(u);
+		return "redirect:/profile?id=" + id;
+	}
+
 	@PostMapping("/transfer")
 	private String transferFund(@RequestParam("id") int id, @RequestParam("accno") int accno,
 			@RequestParam("ifsc") String ifsc, @RequestParam("accname") String accname,
-			@RequestParam("amount") float amount,  @RequestParam("mode") String mode,
-			HttpServletRequest request) {
-		if (userDAO.findAccount(accno).get()!=null) {
+			@RequestParam("amount") float amount, @RequestParam("mode") String mode, HttpServletRequest request) {
+
+		if (userDAO.findAccount(accno).get() != null) {
+
 			User user = userDAO.getUser(id);
 			if (user.getAccount().getBal() > 0) {
 				Transaction trans = new Transaction();
@@ -141,30 +164,7 @@ public class UserController {
 			request.setAttribute("msg", "Invalid Account");
 			return "transacstatus";
 		}
-	}
 
-	@GetMapping("/passbook")
-	private String getAllTransaction(@RequestParam("id") int id, HttpServletRequest request) {
-		request.setAttribute("list", userDAO.getAllTransactions(id));
-		return "passbook";
 	}
-	
-	@PostMapping("/editprofile")
-	private String editProfile(@RequestParam("email") String email, @RequestParam("password") String password,
-			@RequestParam("name") String name, @RequestParam("phone") String phone,
-			@RequestParam("address") String address, @RequestParam("id") int id,
-			@RequestParam("pin") int pin) {
-		User u =userDAO.getUser(id);
-		u.setEmail(email);
-		u.setName(name);
-		u.setAddress(address);
-		u.setPassword(password);
-		u.setPin(String.valueOf(pin));
-		u.setPhone(phone);
-		
-		userDAO.updateUser(u);
-		return "redirect:/profile?id="+id;
-	}
-	
 
 }
