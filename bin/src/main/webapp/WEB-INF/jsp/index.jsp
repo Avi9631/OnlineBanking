@@ -90,11 +90,11 @@ body {
 				<br />
 				<form action="/login" method="POST">
 					<div class="form-group">
-						<input class="form-control" type="text" name="username"
+						<input class="form-control" type="text" name="email"
 							placeholder="Login Email" required />
 					</div>
 					<div class="form-group">
-						<input class="form-control" type="password" name="password"
+						<input class="form-control" type="text" name="password"
 							placeholder="Password" required />
 					</div>
 					<input type="submit" class="btn btn-success" />

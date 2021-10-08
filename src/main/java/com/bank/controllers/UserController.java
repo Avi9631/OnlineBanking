@@ -8,6 +8,7 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.jasper.tagplugins.jstl.core.If;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
@@ -55,14 +56,19 @@ public class UserController {
 	}
 
 	@PostMapping("/login")
-	private String login(@RequestParam("email") String email, @RequestParam("password") String password,
+	private String login(@RequestParam("username") String email, @RequestParam("password") String password,
 			HttpServletRequest request) {
 		User user = userDAO.findUserByEmailPassword(email, password);
 		if (user != null) {
 			HttpSession session = request.getSession(true);
 			session.setAttribute("userid", user.getId());
 			session.setAttribute("role", user.getRole());
-			return "redirect:/dashboard";
+			if(user.getRole().equals("USER")) {
+				return "redirect:/dashboard";
+			}else {
+				return "redirect:/showall";
+			}
+			
 		} else {
 			return "redirect:/loginError";
 		}
