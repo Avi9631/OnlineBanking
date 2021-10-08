@@ -22,6 +22,13 @@ public class AdminController {
 	@Autowired
 	private AdminDAO adminDAO;
 	
-		
+	@GetMapping("/showall")
+	public String showAllUser(HttpServletRequest request) {
+		request.setAttribute("allUser", adminDAO.showAllUserDetails()) ;
+		return "adminshowusers";
+	}
+	
+	
+	
 
 }
