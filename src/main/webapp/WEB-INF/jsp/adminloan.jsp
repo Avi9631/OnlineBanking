@@ -1,3 +1,4 @@
+<%@page import="com.bank.beans.LoanQuery"%>
 <%@page import="com.bank.beans.Account"%>
 <%@page import="com.bank.beans.User"%>
 <%@page import="java.util.List"%>
@@ -7,7 +8,7 @@
 <html>
 
 <head>
-<title>Admin-Show all users</title>
+<title>Admin-Show Loan Applications</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -59,9 +60,9 @@ body {
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
-					<li class="active"><a href="/showall">MANAGE USERS</a></li>
+					<li ><a href="/showall">MANAGE USERS</a></li>
 					<li><a href="/getallquery">MANAGE QUERY</a></li>
-					<li><a href="/adminloan">VIEW LOAN APPLICATIONS</a></li>
+					<li class="active"><a href="/adminloan">VIEW LOAN APPLICATIONS</a></li>
 					<li><a
 						href="/adminprofile">PROFILE</a></li>
 					<li><a
@@ -72,56 +73,35 @@ body {
 	</nav>
 
 	<div class="jumbotron text-center">
-		<h1>ONLINE BANKING</h1>
-		<p>View All Accounts</p>
+		<h1>VIEW LOAN APPLICATIONS</h1>
 	</div>
 
 	<div class="container-fluid">
-		<form action="/search" method="get">
-			<div class="row">
-				<div class="col-md-3"></div>
-				<div class="col-md-6 ">
-					<div class="input-group">
-						<input type="number" class="form-control"
-							placeholder="Search Account Number" name="account" id="account" />
-						<div class="input-group-btn">
-							<button class="btn btn-primary" type="submit">
-								<span class="glyphicon glyphicon-search"></span>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</form>
-		<br> <br>
+		<br>
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>Account Number</th>
+					<th>Loan ID</th>
 					<th>User ID</th>
+					<th>User Name</th>
 					<th>Email ID</th>
-					<th>Name</th>
-					<th>Account Type</th>
-					<th>Account Balance</th>
+					<th>Loan Amount</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<%
-				List<Account> users = (List<Account>) request.getAttribute("allUser");
-				for (Account u : users) {
+				List<LoanQuery> loanList = (List<LoanQuery>) request.getAttribute("loanquery");
+				for (LoanQuery i: loanList) {
 				%>
 				<tr>
-					<td><%=u.getAccno()%></td>
-					<td><%=u.getUser().getId()%></td>
-					<td><%=u.getUser().getEmail()%></td>
-					<td><%=u.getUser().getName()%></td>
-					<td><%=u.getAccType()%></td>
-					<td><%=u.getBal()%></td>
-					<td><a href="/viewdetail?id=<%=u.getUser().getId()%>"
-						type="button" class="btn btn-info">View Details</a> &nbsp;&nbsp; <a
-						onclick="if(confirm('Are you sure to close the account for <%=u.getUser().getName()%>')){window.location.href='/close?id=<%=u.getUser().getId()%>'}"
-						type="button" class="btn btn-danger"> Close Account</a></td>
+					<td><%=i.getId()%></td>
+					<td><%=i.getUser().getId()%></td>
+					<td><%=i.getUser().getName()%></td>
+					<td><%=i.getUser().getEmail()%></td>
+					<td><%=i.getAmount()%></td>
+					<td><a href="/viewdetail?id=<%=i.getUser().getId()%>"
+						type="button" class="btn btn-info">View Details</a></td>
 				</tr>
 				<%
 				}

@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" errorPage="error.jsp"%>
+	pageEncoding="UTF-8" errorPage="error.jsp"%>
 <!DOCTYPE html>
 <html>
 
-<%if(session.getAttribute("userid") == null){
+<%
+if (session.getAttribute("userid") == null) {
 	response.sendRedirect("/");
 }
 %>
@@ -62,22 +63,30 @@ body {
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="/">HOME</a></li>
-					<%if(session.getAttribute("userid")!=null){ %>
-					<li ><a href="/dashboard">CHECK BALANCE</a></li>
+					<%
+					if (session.getAttribute("userid") != null) {
+					%>
+					<li><a href="/dashboard">CHECK BALANCE</a></li>
 					<li class="active"><a href="/fundtransfer">FUND TRANSFER</a></li>
-					<li><a href="/passbook?id=<%=session.getAttribute("userid")%>">PASSBOOK</a></li>
-					<li><a href="/profile?id=<%=session.getAttribute("userid")%>" >PROFILE</a></li>
-					<li><a onclick="if(confirm('Are you sure you want to log out')){window.location.href='/logout'}">LOGOUT</a></li>
-					<%} %>
+					<li><a
+						href="/upitransfer">UPI</a></li>
+					<li ><a href="/loan">LOAN</a></li>
+					
+					<li><a href="/passbook">PASSBOOK</a></li>
+					<li><a href="/profile">PROFILE</a></li>
+					<li><a
+						onclick="if(confirm('Are you sure you want to log out')){window.location.href='/logout'}">LOGOUT</a></li>
+					<%
+					}
+					%>
 				</ul>
 			</div>
 		</div>
 	</nav>
 
 	<div class="jumbotron text-center">
-		<h1><%=request.getAttribute("msg") %></h1>
-		<br />
-		<a href="/fundtransfer">Go Back</a>
+		<h1><%=request.getAttribute("msg")%></h1>
+		<br /> <a href="/fundtransfer">Go Back</a>
 	</div>
 
 

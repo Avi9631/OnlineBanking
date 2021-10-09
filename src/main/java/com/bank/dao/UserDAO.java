@@ -10,9 +10,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import com.bank.beans.Account;
+import com.bank.beans.LoanQuery;
+import com.bank.beans.RaiseTicket;
 import com.bank.beans.Transaction;
 import com.bank.beans.User;
 import com.bank.controllers.AccountRepository;
+import com.bank.controllers.LoanRepository;
+import com.bank.controllers.RaiseQueryRepository;
 import com.bank.controllers.TransactionRepository;
 import com.bank.controllers.UserRepository;
 
@@ -25,6 +29,10 @@ public class UserDAO {
 	private AccountRepository accRepo;
 	@Autowired
 	private TransactionRepository transacRepo;
+	@Autowired
+	private RaiseQueryRepository queryRepo;
+	@Autowired
+	private LoanRepository loanRepo;
 
 	public void addUserToDB(User user, Account account) {
 		userRepo.save(user);
@@ -57,6 +65,9 @@ public class UserDAO {
 	
 	public Optional<Account> findAccount(int id) {
 		return accRepo.findById(id);
+	}
+	public Optional<Account> findAccountByUPI(String upi) {
+		return accRepo.findByUpi(upi);
 	}
 	
 	public void transferFund(Transaction t) {
@@ -95,4 +106,22 @@ public class UserDAO {
 		userRepo.save(user);
 	}
 	
+	
+	public void enableUpi(int id) {
+	   User user=	getUser(id);
+	   Account account= user.getAccount();
+	   String str[]= user.getName().split(" ");
+	   
+	   account.setUpi(str[0].toLowerCase()+user.getPhone().substring(7)+"@yesbank");
+	   user.setAccount(account);
+	   userRepo.save(user);
+	}
+	
+	public void addQuery(RaiseTicket ticket) {
+		queryRepo.save(ticket);
+	}
+	
+	public void addLoanrequest(LoanQuery loan) {
+		loanRepo.save(loan);
+	}
 }

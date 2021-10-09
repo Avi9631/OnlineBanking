@@ -23,6 +23,7 @@ public class Account {
 	private LocalDateTime opendate;
 	private String accType;
 	private String ifsc;
+	private String upi;
 	private float bal;
 
 	@OneToOne(targetEntity=User.class, cascade = {CascadeType.ALL})  
@@ -35,13 +36,25 @@ public class Account {
 
 
 
+	public String getUpi() {
+		return upi;
+	}
+
+
+
+	public void setUpi(String upi) {
+		this.upi = upi;
+	}
+
+
+
 	public void setUser(User user) {
 		this.user = user;
 	}
 
 
 
-	public Account(int accno, LocalDateTime opendate, String accType, String ifsc, float bal, User user) {
+	public Account(int accno, LocalDateTime opendate, String accType, String ifsc, float bal, User user, String upi) {
 		super();
 		this.accno = accno;
 		this.opendate = opendate;
@@ -49,6 +62,7 @@ public class Account {
 		this.ifsc = ifsc;
 		this.bal = bal;
 		this.user = user;
+		this.upi= upi;
 	}
 
 

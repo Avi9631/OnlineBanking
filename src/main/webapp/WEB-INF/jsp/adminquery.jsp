@@ -1,3 +1,4 @@
+<%@page import="com.bank.beans.RaiseTicket"%>
 <%@page import="com.bank.beans.Account"%>
 <%@page import="com.bank.beans.User"%>
 <%@page import="java.util.List"%>
@@ -7,7 +8,7 @@
 <html>
 
 <head>
-<title>Admin-Show all users</title>
+<title>Admin-Show all Query</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -59,8 +60,8 @@ body {
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
-					<li class="active"><a href="/showall">MANAGE USERS</a></li>
-					<li><a href="/getallquery">MANAGE QUERY</a></li>
+					<li><a href="/showall">MANAGE USERS</a></li>
+					<li class="active"><a href="/getallquery">MANAGE QUERY</a></li>
 					<li><a href="/adminloan">VIEW LOAN APPLICATIONS</a></li>
 					<li><a
 						href="/adminprofile">PROFILE</a></li>
@@ -72,56 +73,49 @@ body {
 	</nav>
 
 	<div class="jumbotron text-center">
-		<h1>ONLINE BANKING</h1>
-		<p>View All Accounts</p>
+		<h1>VIEW ALL QUERIES</h1>
+		<p>Resolve queries</p>
 	</div>
 
 	<div class="container-fluid">
-		<form action="/search" method="get">
-			<div class="row">
-				<div class="col-md-3"></div>
-				<div class="col-md-6 ">
-					<div class="input-group">
-						<input type="number" class="form-control"
-							placeholder="Search Account Number" name="account" id="account" />
-						<div class="input-group-btn">
-							<button class="btn btn-primary" type="submit">
-								<span class="glyphicon glyphicon-search"></span>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</form>
-		<br> <br>
+		<br />
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>Account Number</th>
+					<th>Query ID</th>
 					<th>User ID</th>
 					<th>Email ID</th>
 					<th>Name</th>
-					<th>Account Type</th>
-					<th>Account Balance</th>
-					<th></th>
+					<th>Date</th>
+					<th>status</th>
+					<th>query</th>
 				</tr>
 			</thead>
 			<tbody>
 				<%
-				List<Account> users = (List<Account>) request.getAttribute("allUser");
-				for (Account u : users) {
+				List<RaiseTicket> list = (List<RaiseTicket>) request.getAttribute("querylist");
+				for (RaiseTicket u : list) {
 				%>
 				<tr>
-					<td><%=u.getAccno()%></td>
+					<td><%=u.getId()%></td>
 					<td><%=u.getUser().getId()%></td>
 					<td><%=u.getUser().getEmail()%></td>
 					<td><%=u.getUser().getName()%></td>
-					<td><%=u.getAccType()%></td>
-					<td><%=u.getBal()%></td>
+					<td><%=u.getDateTime()%></td>
+					<td><%=u.getStatus()%></td>
+					<td><%=u.getQuery()%></td>
 					<td><a href="/viewdetail?id=<%=u.getUser().getId()%>"
-						type="button" class="btn btn-info">View Details</a> &nbsp;&nbsp; <a
-						onclick="if(confirm('Are you sure to close the account for <%=u.getUser().getName()%>')){window.location.href='/close?id=<%=u.getUser().getId()%>'}"
-						type="button" class="btn btn-danger"> Close Account</a></td>
+						type="button" class="btn btn-info">View Details</a></td>
+					<%
+					if (!u.getStatus().equals("complete")) {
+					%>
+					<td><a
+						onclick="if(confirm('Are you sure you have resolved the issue <%=u.getId()%>'))
+						{window.location.href='/status?id=<%=u.getId()%>'}"
+						type="button" class="btn btn-danger"> Complete</a></td>
+					<%
+					}
+					%>
 				</tr>
 				<%
 				}

@@ -1,16 +1,21 @@
 package com.bank.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.bank.beans.LoanQuery;
+import com.bank.beans.RaiseTicket;
 import com.bank.beans.Transaction;
 import com.bank.beans.User;
 import com.bank.dao.AdminDAO;
@@ -27,13 +32,14 @@ public class AdminController {
 		request.setAttribute("allUser", adminDAO.showAllUserDetails()) ;
 		return "adminshowusers";
 	}
+
 	
-	@GetMapping("/show")
-	public void showTransactOfUser(@RequestParam("id") int id, HttpServletRequest request) {
+	@GetMapping("/viewdetail")
+	public String showTransactOfUser(@RequestParam("id") int id, HttpServletRequest request) {
 		User user= adminDAO.getUser(id);
 		request.setAttribute("userdetail", user);
 		request.setAttribute("usertransac", adminDAO.fetchTransactionOfUser(user.getAccount().getAccno()));
-		
+		return "viewdetail";
 	}
 	
 	@GetMapping("/close")
@@ -42,5 +48,36 @@ public class AdminController {
 		return "redirect:/showall";
 	}
 	
-
+	@GetMapping("/adminprofile")
+	private String getAdminProfileDetails(HttpSession session, HttpServletRequest request) {
+		request.setAttribute("adminmodel", adminDAO.getUser(Integer.parseInt(String.valueOf(session.getAttribute("userid")))));
+		return "adminprofile";
+	}
+	
+	@GetMapping("/search")
+	private String searchAccount(@RequestParam("account") int account, HttpServletRequest request) {
+		request.setAttribute("allUser", adminDAO.searchByAccount(account)) ;
+		return "adminshowusers";
+	}
+	
+	@GetMapping("/getallquery")
+	private String fetchAllQuery(HttpServletRequest request) {
+		List<RaiseTicket> tickets= adminDAO.getAllQuery();
+		request.setAttribute("querylist", tickets);
+		return "adminquery";
+	}
+	
+	@GetMapping("/status")
+	private String resolveissue(@RequestParam("id") int id) {
+		RaiseTicket ticket= adminDAO.getQueryById(id);
+		ticket.setStatus("complete");
+		adminDAO.updateQueryStatus(ticket);
+		return "redirect:/getallquery";
+	}
+	@GetMapping("/adminloan")
+	private String getLoanApplications(HttpServletRequest request) {
+		List<LoanQuery> list= adminDAO.getLoanApplicationdata();
+		request.setAttribute("loanquery", list);
+		return "adminloan";
+	}
 }

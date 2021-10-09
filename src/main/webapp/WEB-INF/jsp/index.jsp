@@ -1,3 +1,4 @@
+<%@page import="java.util.Random"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" errorPage="error.jsp"%>
 <!DOCTYPE html>
@@ -63,8 +64,11 @@ body {
 					%>
 					<li><a href="/dashboard">CHECK BALANCE</a></li>
 					<li><a href="/fundtransfer">FUND TRANSFER</a></li>
-					<li><a href="/passbook?id=<%=session.getAttribute("userid")%>">PASSBOOK</a></li>
-					<li><a href="/profile?id=<%=session.getAttribute("userid")%>">PROFILE</a></li>
+					<li><a href="/upitransfer">UPI</a></li>
+					<li><a href="/loan">LOAN</a></li>
+
+					<li><a href="/passbook">PASSBOOK</a></li>
+					<li><a href="/profile">PROFILE</a></li>
 					<li><a
 						onclick="if(confirm('Are you sure you want to log out')){window.location.href='/logout'}">LOGOUT</a></li>
 					<%
@@ -84,11 +88,11 @@ body {
 		<%
 		if (session.getAttribute("userid") == null) {
 		%>
-		<div class="row">
+		<div class="row" >
 			<div class="col-md-6 text-center">
 				<h3>LOGIN TO YOUR ACCOUNT</h3>
 				<br />
-				<form action="/login" method="POST">
+				<form action="/login" method="POST" onsubmit="return captcha()" style="background-color: white;">
 					<div class="form-group">
 						<input class="form-control" type="text" name="username"
 							placeholder="Login Email" required />
@@ -97,13 +101,18 @@ body {
 						<input class="form-control" type="password" name="password"
 							placeholder="Password" required />
 					</div>
-					<input type="submit" class="btn btn-success" />
+					<a class="text-center"
+						onclick="alert('Visit your nearest bank branch to reset your password')">Forgot
+						Password</a> <br/>
+						<input type="submit" onclick="capthcha()"
+						class="btn btn-success" />
 				</form>
 			</div>
+
 			<div class="col-md-6 text-center">
 				<h3>CREATE A NEW ACCOUNT INSTANTLY</h3>
 				<br />
-				<form action="/register" method="post" onsubmit="return validate()">
+				<form action="/register" method="post" onsubmit="return validate()" style="background-color: white;">
 					<div class="form-group">
 						<input class="form-control" type="email" name="email" id="email"
 							placeholder="Email" required />
@@ -126,21 +135,23 @@ body {
 					</div>
 					<div class="form-group">
 						<input class="form-control" type="text" name="address"
-							id="address" placeholder="Address (Greater than 6 characters)" required />
+							id="address" placeholder="Address (Greater than 6 characters)"
+							required />
 					</div>
 					<div class="form-group">
 						<input class="form-control" type="number" name="aadharproof"
 							id="aadharproof" placeholder="Aadhar ID (12 digits)" required />
 					</div>
 					<div class="form-group">
-						<input class="form-control" type="number" name="pin" id="pin"
+						<input class="form-control" type="password" name="pin" id="pin"
 							placeholder="Create a 4 digit PIN " required />
 					</div>
 					<div class="form-group">
 						<input class="form-control" type="password" name="password"
 							id="password" placeholder="Password (min. 4 letters)" required />
 					</div>
-					<input type="submit" class="btn btn-success" value="REGISTER" />
+					<input type="submit" onclick="capthcha()" class="btn btn-success"
+						value="REGISTER" />
 					<p>After Registering you will have to login</p>
 				</form>
 			</div>
@@ -158,6 +169,19 @@ body {
 	</div>
 
 	<script type="text/javascript">
+		function captcha() {
+			var n1 = Math.floor(Math.random() * 10);
+			var n2 = Math.floor(Math.random() * 10);
+			var result = parseInt(prompt("Enter the Result for verification: "
+					+ n1 + " + " + n2));
+			if (result == (n1 + n2)) {
+				return true;
+			} else {
+				alert("Verification failed!! Try Again!");
+				return false;
+			}
+		}
+
 		function validate() {
 			var emailregex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
 			var x = document.getElementById("email").value;
@@ -168,8 +192,19 @@ body {
 					&& document.getElementById("pin").value.length == 4
 					&& document.getElementById("name").value.length >= 3) {
 				if (x.match(emailregex)) {
-					return true;
+					var n1 = Math.floor(Math.random() * 10);
+					var n2 = Math.floor(Math.random() * 10);
+					var result = parseInt(prompt("Enter the Result for verification: "
+							+ n1 + " + " + n2));
+					if (result == (n1 + n2)) {
+						alert("Registration Successfull ! Now you can Login");
+						return true;
+					} else {
+						alert("Verification failed!! Try Again!");
+						return false;
+					}
 				} else {
+					alert("Invalid Form Data");
 					return false;
 				}
 			} else {

@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 <html>
 
-<%if(session.getAttribute("userid") == null){
+<%
+if (session.getAttribute("userid") == null) {
 	response.sendRedirect("/");
 }
 %>
@@ -65,13 +66,22 @@ body {
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="/">HOME</a></li>
-					<%if(session.getAttribute("userid")!=null){ %>
+					<%
+					if (session.getAttribute("userid") != null) {
+					%>
 					<li class="active"><a href="/dashboard">CHECK BALANCE</a></li>
 					<li><a href="/fundtransfer">FUND TRANSFER</a></li>
-					<li><a href="/passbook?id=<%=session.getAttribute("userid")%>">PASSBOOK</a></li>
-					<li><a href="/profile?id=<%=session.getAttribute("userid")%>" >PROFILE</a></li>
-					<li><a onclick="if(confirm('Are you sure you want to log out')){window.location.href='/logout'}">LOGOUT</a></li>
-					<%} %>
+					<li><a
+						href="/upitransfer">UPI</a></li>
+					<li><a href="/loan">LOAN</a></li>
+
+					<li><a href="/passbook">PASSBOOK</a></li>
+					<li><a href="/profile">PROFILE</a></li>
+					<li><a
+						onclick="if(confirm('Are you sure you want to log out')){window.location.href='/logout'}">LOGOUT</a></li>
+					<%
+					}
+					%>
 				</ul>
 			</div>
 		</div>
@@ -87,8 +97,8 @@ body {
 			<div class="col-md-6 text-center">
 				<h2>Check Balance</h2>
 				<div class="form-group">
-					<input type="text" class="form-control" id="pin" placeholder="PIN"
-						required />
+					<input type="password" class="form-control" id="pin"
+						placeholder="PIN" required />
 				</div>
 				<button class="btn btn-primary" onclick="bal()">Show
 					Balance</button>
@@ -96,7 +106,7 @@ body {
 			<div id="bal-view" class="col-md-6 " style="display: none;">
 				<h2>Account Balance</h2>
 				<h3>
-					Rs.<b id="balance">45000</b>/-
+					Rs.<b id="balance"></b>/-
 				</h3>
 				<p id="timer-view">The Balance will dissappear in 10 sec for
 					security reasons</p>

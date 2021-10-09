@@ -63,19 +63,7 @@ body {
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/">HOME</a></li>
-					<%
-					if (session.getAttribute("userid") != null) {
-					%>
-					<li class="active"><a href="/dashboard">CHECK BALANCE</a></li>
-					<li><a href="/fundtransfer">FUND TRANSFER</a></li>
-					<li><a href="/passbook?id=<%=session.getAttribute("userid")%>">PASSBOOK</a></li>
-					<li><a href="/profile?id=<%=session.getAttribute("userid")%>">PROFILE</a></li>
-					<li><a
-						onclick="if(confirm('Are you sure you want to log out')){window.location.href='/logout'}">LOGOUT</a></li>
-					<%
-					}
-					%>
+					
 				</ul>
 			</div>
 		</div>

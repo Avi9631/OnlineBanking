@@ -1,10 +1,9 @@
-<%@page import="java.time.format.DateTimeFormatter"%>
-<%@page import="java.util.List"%>
-<%@page import="com.bank.beans.Transaction"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" errorPage="error.jsp"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+
+
 <%
 if (session.getAttribute("userid") == null) {
 	response.sendRedirect("/");
@@ -12,15 +11,15 @@ if (session.getAttribute("userid") == null) {
 %>
 
 <head>
-<title>Passbook</title>
+<title>Transfer Fund Now</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css?family=Montserrat"
 	rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Lato"
 	rel="stylesheet" type="text/css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script
@@ -70,62 +69,65 @@ body {
 					%>
 					<li><a href="/dashboard">CHECK BALANCE</a></li>
 					<li><a href="/fundtransfer">FUND TRANSFER</a></li>
-					<li><a href="/upitransfer">UPI</a></li>
+					<li class="active"><a href="/upitransfer">UPI</a></li>
 					<li><a href="/loan">LOAN</a></li>
-					<li class="active"><a href="/passbook">PASSBOOK</a></li>
+
+					<li><a href="/passbook">PASSBOOK</a></li>
 					<li><a href="/profile">PROFILE</a></li>
 					<li><a
 						onclick="if(confirm('Are you sure you want to log out')){window.location.href='/logout'}">LOGOUT</a></li>
 					<%
 					}
 					%>
-
 				</ul>
 			</div>
 		</div>
 	</nav>
 
 	<div class="jumbotron text-center">
-		<h1>PASSBOOK</h1>
-		<p>Get all your transactions listed here</p>
+		<h1>UPI TRANSFER</h1>
+		<br />
+		<p>UPI transfer are one of the safest and fast</p>
 	</div>
 
-	<div id="about" class="container-fluid">
-		<table class="table">
-			<thead class="thead-light">
-				<tr>
-					<th scope="col">ID</th>
-					<th scope="col">FROM</th>
-					<th scope="col">TO</th>
-					<th scope="col">MODE</th>
-					<th scope="col">TYPE</th>
-					<th scope="col">DATE</th>
-					<th scope="col">AMOUNT</th>
-				</tr>
-			</thead>
-			<tbody>
-				<%
-				List<Transaction> list = (List<Transaction>) request.getAttribute("list");
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY hh:mm:ss");
-				for (Transaction t : list) {
-				%>
-				<tr>
-					<td><%=t.getId()%></td>
-					<td><%=t.getFrom()%></td>
-					<td><%=t.getTo()%></td>
-					<td><%=t.getMode()%></td>
-					<td><%=t.getType()%></td>
-					<td><%=t.getDate().format(formatter)%></td>
-					<td><%=t.getAmount()%></td>
-
-				</tr>
-				<%
-				}
-				%>
-
-			</tbody>
-		</table>
+	<%
+	String upi = (String) request.getAttribute("upistatus");
+	if (!upi.equals("disable")) {
+	%>
+	<div style="width: 50%; margin: auto;">
+		<form action="/upi" method="POST">
+			<input type="hidden" value="<%=session.getAttribute("userid")%>"
+				name="id" />
+			<div class="form-group">
+				<label for="upi">UPI ID : </label> <input type="text"
+					class="form-control" name="upi" id="upi" required />
+			</div>
+			<div class="form-group">
+				<label for="amt">Amount : </label> <input type="number"
+					class="form-control" name="amt" id="amt" placeholder="Rs.--- /-"
+					required />
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-success">
+					<b>SEND NOW</b>
+				</button>
+			</div>
+		</form>
 	</div>
+	<%
+	} else {
+	%>
+	<div class="text-center" style="width: 50%; margin: auto;">
+		<h3>ENABLE UPI NOW</h3>
+		<button class="btn btn-primary"
+			onclick="if(confirm('Are you sure you want to Enable the UPI')){window.location.href= '/enableupi'}">CLICK
+			HERE TO ENABLE NOW</button>
+	</div>
+	<%
+	}
+	%>
+
+
 
 	<footer class="container-fluid text-center">
 		<a href="/" title="To Top"> <span
@@ -135,7 +137,7 @@ body {
 	</footer>
 
 
-</body>
 
+</body>
 
 </html>

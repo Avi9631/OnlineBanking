@@ -1,6 +1,6 @@
 <%@page import="com.bank.beans.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" errorPage="error.jsp"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
@@ -63,22 +63,13 @@ body {
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/">HOME</a></li>
-					<%
-					if (session.getAttribute("userid") != null) {
-					%>
-					<li><a href="/dashboard">CHECK BALANCE</a></li>
-					<li><a href="/fundtransfer">FUND TRANSFER</a></li>
-					<li><a href="/upitransfer">UPI</a></li>
-					<li><a href="/loan">LOAN</a></li>
-
-					<li><a href="/passbook">PASSBOOK</a></li>
-					<li class="active"><a href="/profile">PROFILE</a></li>
+					<li><a href="/showall">MANAGE USERS</a></li>
+					<li><a href="/getallquery">MANAGE QUERY</a></li>
+					<li><a href="/adminloan">VIEW LOAN APPLICATIONS</a></li>
+					<li class="active"><a
+						href="/adminprofile">PROFILE</a></li>
 					<li><a
-						onclick="if(confirm('Are you sure you want to log out')){window.location.href='/logout'}">LOGOUT</a></li>
-					<%
-					}
-					%>
+						onclick="if(confirm('Are you sure you want to log out')){window.location.href='/logout';}">LOGOUT</a></li>
 				</ul>
 			</div>
 		</div>
@@ -92,13 +83,10 @@ body {
 		<button class="btn btn-primary" style="width: 30%;"
 			data-toggle="modal" data-target="#edit-profile-modal"
 			data-ticket-type="premium-access">EDIT PROFILE</button>
-		<button class="btn btn-primary" style="width: 30%;"
-			data-toggle="modal" data-target="#ticket-profile-modal"
-			data-ticket-type="premium-access">Raise a Query</button>
 	</div>
 
 	<%
-	User u = (User) (request.getAttribute("usermodel"));
+	User u = (User) (request.getAttribute("adminmodel"));
 	%>
 
 	<div class="container-fluid">
@@ -176,25 +164,12 @@ body {
 					<div class="row">
 						<div class="col-sm-3">
 							<h5 class="mb-0">
-								<b>IFSC</b>
+								<b>Designation</b>
 							</h5>
 						</div>
 						<div class="col-sm-9">
 							<h5>
-								<%=u.getAccount().getIfsc()%>
-							</h5>
-						</div>
-					</div>
-					<hr>
-					<div class="row">
-						<div class="col-sm-3">
-							<h5 class="mb-0">
-								<b>Account Number</b>
-							</h5>
-						</div>
-						<div class="col-sm-9">
-							<h5>
-								<%=u.getAccount().getAccno()%>
+								<%=u.getRole()%>
 							</h5>
 						</div>
 					</div>
@@ -222,25 +197,29 @@ body {
 						onsubmit="return validate()">
 						<input type="hidden" name="id" value="<%=u.getId()%>" />
 						<div class="form-group">
-							Name : <input class="form-control" type="text" name="name"
-								id="name" value="<%=u.getName()%>" required />
+							Name : 
+							<input class="form-control" type="text" name="name" id="name"
+								value="<%=u.getName()%>" required />
 						</div>
 						<div class="form-group">
-							Phone : <input class="form-control" type="tel" name="phone"
-								id="phone" value="<%=u.getPhone()%>" required />
+						Phone : 
+							<input class="form-control" type="tel" name="phone" id="phone"
+								value="<%=u.getPhone()%>" required />
 						</div>
 						<div class="form-group">
-							Address : <input class="form-control" type="text" name="address"
+						Address :
+							<input class="form-control" type="text" name="address"
 								id="address" value="<%=u.getAddress()%>" required />
 						</div>
 						<div class="form-group">
-							Pin : <input class="form-control" type="number" name="pin"
+						Pin : 
+							<input class="form-control" type="number" name="pin"
 								id="password" value="<%=u.getPin()%>" required />
 						</div>
 						<div class="form-group">
-							Password : <input class="form-control" type="password"
-								name="password" id="password" value="<%=u.getPassword()%>"
-								required />
+						Password : 
+							<input class="form-control" type="password" name="password"
+								id="password" value="<%=u.getPassword()%>" required />
 						</div>
 						<input type="submit" name="submit" value="Update" />
 					</form>
@@ -249,43 +228,6 @@ body {
 			</div>
 		</div>
 	</div>
-
-
-	<!-- Raise Ticket modal -->
-
-	<div id="ticket-profile-modal" class="modal fade">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title ">Raise Ticket</h4>
-
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-
-
-				<div class="modal-body ">
-					<form method="POST" action="/raisequery">
-						<input type="hidden" name="id" value="<%=u.getId()%>" />
-						<div class="form-group">
-							<label for="query">Write your Query :</label> <input
-								class="form-control" type="text" name="query" id="query"
-								required />
-						</div>
-						<input type="submit" id="submit"
-							onclick="alert('Your query is submitted.')" name="submit"
-							value="SUBMIT YOUR QUERY" />
-					</form>
-					<p class="text-center">Your query will be answered in you
-						registered email.</p>
-				</div>
-
-			</div>
-		</div>
-	</div>
-
 
 	<script type="text/javascript">
 		function validate() {
@@ -319,6 +261,7 @@ body {
 
 
 </body>
+
 
 
 </html>
