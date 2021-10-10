@@ -38,10 +38,8 @@ public class CommonController {
 	
 	@GetMapping("/error")
 	@ResponseBody
-	private String error(HttpServletRequest request) {
+	private String error() {
 		System.out.println("=---------------------------error--------------------------");
-
-		HttpSession session = request.getSession();
 		return "WELCOME BUDDY";
 	}
 	

@@ -61,6 +61,7 @@ body {
 					<li class="active"><a href="/">HOME</a></li>
 					<%
 					if (session.getAttribute("userid") != null) {
+						if (String.valueOf(session.getAttribute("role")).equals("USER")) {
 					%>
 					<li><a href="/dashboard">CHECK BALANCE</a></li>
 					<li><a href="/fundtransfer">FUND TRANSFER</a></li>
@@ -72,6 +73,14 @@ body {
 					<li><a
 						onclick="if(confirm('Are you sure you want to log out')){window.location.href='/logout'}">LOGOUT</a></li>
 					<%
+					} else {
+					%>
+					<li><a href="/showall">MANAGE USERS</a></li>
+					<li class="active"><a href="/getallquery">MANAGE QUERY</a></li>
+					<li><a href="/adminloan">VIEW LOAN APPLICATIONS</a></li>
+					<li><a href="/adminprofile">PROFILE</a></li>
+					<%
+					}
 					}
 					%>
 				</ul>
@@ -150,12 +159,13 @@ body {
 					</div>
 					<div class="form-group">
 						<input class="form-control" type="password" name="password"
-							id="password" placeholder="Password (min. 4 letters)" required />
+							id="password"
+							placeholder="Password (Min 8 characters, at least 1 letter and one digit)"
+							required />
 					</div>
 					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" /> 
-					<input type="submit" onclick="capthcha()" class="btn btn-success"
-						value="REGISTER" />
+						value="${_csrf.token}" /> <input type="submit"
+						onclick="capthcha()" class="btn btn-success" value="REGISTER" />
 					<p>After Registering you will have to login</p>
 				</form>
 			</div>
@@ -191,15 +201,15 @@ body {
 			var x = document.getElementById("email").value;
 			if (document.getElementById("phone").value.length == 10
 					&& document.getElementById("address").value.length >= 5
-					&& document.getElementById("password").value.length >= 4
+					&& document.getElementById("password").value.length >= 7
 					&& document.getElementById("aadharproof").value.length == 12
 					&& document.getElementById("pin").value.length == 4
 					&& document.getElementById("name").value.length >= 3) {
 				if (x.match(emailregex)) {
-					var n1 = Math.floor(Math.random() * 10);
-					var n2 = Math.floor(Math.random() * 10);
+					var n1 = Math.floor(Math.random() * 10) + 1;
+					var n2 = Math.floor(Math.random() * 10) + 1;
 					var result = parseInt(prompt("Enter the Result for verification: "
-							+ n1 + " + " + n2));
+							+ n1 + " + " + n2 + " = "));
 					if (result == (n1 + n2)) {
 						alert("Registration Successfull ! Now you can Login");
 						return true;
