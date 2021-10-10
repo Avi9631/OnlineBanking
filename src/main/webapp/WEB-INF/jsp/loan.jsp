@@ -125,6 +125,8 @@ body {
 					<input type=number name="tenure" class="form-control" id="tenure"
 						style="border-radius: 5px" required> <br>
 				</div>
+				<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
 				<div>
 					<button style="border-radius: 2px" id="find" onclick="validate()"
 						class="btn btn-primary">Find Emi</button>
@@ -170,6 +172,8 @@ body {
 								class="form-control" type="number" name="loanamt" id="loanamt"
 								placeholder="Amount is in Rupees" required />
 						</div>
+						<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
 						<input type="submit" id="submit"
 							onclick="alert('Your request is submitted. A agent will will contact you soon')"
 							name="submit" value="APPLY FOR  A LOAN" />

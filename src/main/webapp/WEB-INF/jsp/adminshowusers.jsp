@@ -62,8 +62,7 @@ body {
 					<li class="active"><a href="/showall">MANAGE USERS</a></li>
 					<li><a href="/getallquery">MANAGE QUERY</a></li>
 					<li><a href="/adminloan">VIEW LOAN APPLICATIONS</a></li>
-					<li><a
-						href="/adminprofile">PROFILE</a></li>
+					<li><a href="/adminprofile">PROFILE</a></li>
 					<li><a
 						onclick="if(confirm('Are you sure you want to log out')){window.location.href='/logout';}">LOGOUT</a></li>
 				</ul>
@@ -85,6 +84,8 @@ body {
 						<input type="number" class="form-control"
 							placeholder="Search Account Number" name="account" id="account" />
 						<div class="input-group-btn">
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" />
 							<button class="btn btn-primary" type="submit">
 								<span class="glyphicon glyphicon-search"></span>
 							</button>
@@ -118,10 +119,12 @@ body {
 					<td><%=u.getUser().getName()%></td>
 					<td><%=u.getAccType()%></td>
 					<td><%=u.getBal()%></td>
+					<%if (String.valueOf(session.getAttribute("role")).equals("USER")) {%>
 					<td><a href="/viewdetail?id=<%=u.getUser().getId()%>"
 						type="button" class="btn btn-info">View Details</a> &nbsp;&nbsp; <a
 						onclick="if(confirm('Are you sure to close the account for <%=u.getUser().getName()%>')){window.location.href='/close?id=<%=u.getUser().getId()%>'}"
 						type="button" class="btn btn-danger"> Close Account</a></td>
+						<%} %>
 				</tr>
 				<%
 				}

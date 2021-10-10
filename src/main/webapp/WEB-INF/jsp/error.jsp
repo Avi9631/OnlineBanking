@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 <html>
 
-<%if(session.getAttribute("userid") == null){
+<%
+if (session.getAttribute("userid") == null) {
 	response.sendRedirect("/");
 }
 %>
@@ -63,7 +64,7 @@ body {
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
-					
+
 				</ul>
 			</div>
 		</div>
@@ -71,8 +72,22 @@ body {
 
 	<div class="jumbotron text-center">
 		<h1>Error Occured</h1>
-		<p><a href="/">Refresh</a></p>
-		
+		<%
+		if (String.valueOf(session.getAttribute("role")).equals("USER")) {
+		%>
+		<p>
+			<a href="/">Refresh</a>
+		</p>
+		<%
+		} else {
+		%>
+		<p>
+			<a href="/showall">Refresh</a>
+		</p>
+		<%
+		}
+		%>
+
 	</div>
 
 

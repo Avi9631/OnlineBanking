@@ -242,6 +242,8 @@ body {
 								name="password" id="password" value="<%=u.getPassword()%>"
 								required />
 						</div>
+						<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
 						<input type="submit" name="submit" value="Update" />
 					</form>
 				</div>
@@ -274,6 +276,8 @@ body {
 								class="form-control" type="text" name="query" id="query"
 								required />
 						</div>
+						<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
 						<input type="submit" id="submit"
 							onclick="alert('Your query is submitted.')" name="submit"
 							value="SUBMIT YOUR QUERY" />

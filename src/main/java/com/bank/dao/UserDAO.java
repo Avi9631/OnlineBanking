@@ -119,4 +119,8 @@ public class UserDAO {
 	public void addLoanrequest(LoanQuery loan) {
 		loanRepo.save(loan);
 	}
+	
+	public Optional<User> findByEmail(String email) {
+		return userRepo.findByEmail(email);
+	}
 }

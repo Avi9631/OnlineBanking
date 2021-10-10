@@ -221,6 +221,8 @@ body {
 							<input class="form-control" type="password" name="password"
 								id="password" value="<%=u.getPassword()%>" required />
 						</div>
+						<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
 						<input type="submit" name="submit" value="Update" />
 					</form>
 				</div>

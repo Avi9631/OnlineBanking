@@ -107,6 +107,8 @@ body {
 					class="form-control" name="amt" id="amt" placeholder="Rs.--- /-"
 					required />
 			</div>
+			<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
 			<div class="form-group">
 				<button type="submit" class="btn btn-success">
 					<b>SEND NOW</b>

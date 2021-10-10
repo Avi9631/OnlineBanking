@@ -88,11 +88,12 @@ body {
 		<%
 		if (session.getAttribute("userid") == null) {
 		%>
-		<div class="row" >
+		<div class="row">
 			<div class="col-md-6 text-center">
 				<h3>LOGIN TO YOUR ACCOUNT</h3>
 				<br />
-				<form action="/login" method="POST" onsubmit="return captcha()" style="background-color: white;">
+				<form action="/login" method="POST" onsubmit="return captcha()"
+					style="background-color: white;">
 					<div class="form-group">
 						<input class="form-control" type="text" name="username"
 							placeholder="Login Email" required />
@@ -101,10 +102,10 @@ body {
 						<input class="form-control" type="password" name="password"
 							placeholder="Password" required />
 					</div>
-					<a class="text-center"
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" /> <a class="text-center"
 						onclick="alert('Visit your nearest bank branch to reset your password')">Forgot
-						Password</a> <br/>
-						<input type="submit" onclick="capthcha()"
+						Password</a> <br /> <input type="submit" onclick="capthcha()"
 						class="btn btn-success" />
 				</form>
 			</div>
@@ -112,7 +113,8 @@ body {
 			<div class="col-md-6 text-center">
 				<h3>CREATE A NEW ACCOUNT INSTANTLY</h3>
 				<br />
-				<form action="/register" method="post" onsubmit="return validate()" style="background-color: white;">
+				<form action="/register" method="post" onsubmit="return validate()"
+					style="background-color: white;">
 					<div class="form-group">
 						<input class="form-control" type="email" name="email" id="email"
 							placeholder="Email" required />
@@ -150,6 +152,8 @@ body {
 						<input class="form-control" type="password" name="password"
 							id="password" placeholder="Password (min. 4 letters)" required />
 					</div>
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" /> 
 					<input type="submit" onclick="capthcha()" class="btn btn-success"
 						value="REGISTER" />
 					<p>After Registering you will have to login</p>

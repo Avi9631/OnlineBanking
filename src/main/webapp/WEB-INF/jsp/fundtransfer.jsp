@@ -121,6 +121,8 @@ body {
 					<option value="IMPS">RTGS</option>
 				</select>
 			</div>
+			<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
 			<div class="form-group">
 				<button type="submit" class="btn btn-success">
 					<b>TRANSFER NOW</b>

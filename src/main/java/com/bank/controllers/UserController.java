@@ -67,6 +67,7 @@ public class UserController {
 	private String upitransfer(HttpSession session, HttpServletRequest request) {
 	    User user= userDAO.getUser(Integer.parseInt(String.valueOf(session.getAttribute("userid"))));
 	    request.setAttribute("upistatus", user.getAccount().getUpi());
+	    System.out.println(user.getAccount().getUpi());
 	    return "upitransfer";
 	}
 	@GetMapping("/enableupi")
@@ -75,63 +76,7 @@ public class UserController {
 		return "redirect:/upitransfer";
 	}
 	
-	@GetMapping("/logout")
-	private String logout(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		session.invalidate();
-		return "redirect:/";
-	}
-
-	@PostMapping("/login")
-	private String login(@RequestParam("username") String email, @RequestParam("password") String password,
-			HttpServletRequest request) {
-		User user = userDAO.findUserByEmailPassword(email, password);
-		if (user != null) {
-			HttpSession session = request.getSession(true);
-			session.setAttribute("userid", user.getId());
-			session.setAttribute("role", user.getRole());
-			if(user.getRole().equals("USER")) {
-				return "redirect:/dashboard";
-			}else {
-				return "redirect:/showall";
-			}
-			
-		} else {
-			return "redirect:/loginError";
-		}
-	}
-
-	@PostMapping("/register")
-	private String register(@RequestParam("email") String email, @RequestParam("password") String password,
-			@RequestParam("name") String name, @RequestParam("pin") String pin, @RequestParam("phone") String phone,
-			@RequestParam("state") String state, @RequestParam("address") String address,
-			@RequestParam("aadharproof") String aadharproof) {
-
-		User user = new User(name, email, password, pin, phone, "USER", state, address, "Not Approved", aadharproof,
-				null);
-		String ifsc="";
-		switch (state) {
-		case "Jharkhand":
-			ifsc= "JHO5678";
-			break;
-		case "West Bengal":
-			ifsc= "WBO5678";
-			break;
-		case "Orissa":
-			ifsc= "ORO5678";
-			break;
-		case "Andhra Pradesh":
-			ifsc= "APO5678";
-			break;
-		default:
-			break;
-		}
-		Account account = new Account(10000000 + new Random().nextInt(90000000), LocalDateTime.now(), "SAVING", ifsc,
-				0, user, "disable");
-		user.setAccount(account);
-		userDAO.addUserToDB(user, account);
-		return "redirect:/";
-	}
+	
 
 	@GetMapping("/getBalance")
 	@ResponseBody
@@ -205,7 +150,9 @@ public class UserController {
 	
 	@PostMapping("/upi")
 	private String upitransac(@RequestParam("upi") String upi, @RequestParam("id") int id, 
-			@RequestParam("amt") float amt, HttpServletRequest request) {
+			@RequestParam("amt") float amt, HttpServletRequest request) {	    
+		System.out.println(request.getSession().getAttribute("userid"));
+
 		try {
 		Account account = userDAO.findAccountByUPI(upi).get();
 		if (account!=null) {
