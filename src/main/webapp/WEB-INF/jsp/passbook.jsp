@@ -5,7 +5,8 @@
 	pageEncoding="UTF-8" errorPage="error.jsp"%>
 <!DOCTYPE html>
 <html>
-<%if(session.getAttribute("userid") == null){
+<%
+if (session.getAttribute("userid") == null) {
 	response.sendRedirect("/");
 }
 %>
@@ -64,13 +65,20 @@ body {
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="/">HOME</a></li>
-					<%if(session.getAttribute("userid")!=null){ %>
-					<li ><a href="/dashboard">CHECK BALANCE</a></li>
+					<%
+					if (session.getAttribute("userid") != null) {
+					%>
+					<li><a href="/dashboard">CHECK BALANCE</a></li>
 					<li><a href="/fundtransfer">FUND TRANSFER</a></li>
-					<li class="active"><a href="/passbook?id=<%=session.getAttribute("userid")%>">PASSBOOK</a></li>
-					<li><a href="/profile?id=<%=session.getAttribute("userid")%>" >PROFILE</a></li>
-					<li><a onclick="if(confirm('Are you sure you want to log out')){window.location.href='/logout'}">LOGOUT</a></li>
-					<%} %>
+					<li><a href="/upitransfer">UPI</a></li>
+					<li><a href="/loan">LOAN</a></li>
+					<li class="active"><a href="/passbook">PASSBOOK</a></li>
+					<li><a href="/profile">PROFILE</a></li>
+					<li><a
+						onclick="if(confirm('Are you sure you want to log out')){window.location.href='/logout'}">LOGOUT</a></li>
+					<%
+					}
+					%>
 
 				</ul>
 			</div>
@@ -96,22 +104,25 @@ body {
 				</tr>
 			</thead>
 			<tbody>
-			<% List<Transaction> list= (List<Transaction>) request.getAttribute("list");
-			DateTimeFormatter formatter= DateTimeFormatter.ofPattern("dd/MM/YYYY hh:mm:ss");
-			int i=0;
-			for(Transaction t: list) {%>
+				<%
+				List<Transaction> list = (List<Transaction>) request.getAttribute("list");
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY hh:mm:ss");
+				for (Transaction t : list) {
+				%>
 				<tr>
-					<td><%=t.getId() %></td>
-					<td><%=t.getFrom() %></td>
-					<td><%=t.getTo() %></td>
-					<td><%=t.getMode() %></td>
-					<td><%=t.getType() %></td>
-					<td><%=t.getDate().format(formatter) %></td>
-					<td><%=t.getAmount() %></td>
-					
+					<td><%=t.getId()%></td>
+					<td><%=t.getFrom()%></td>
+					<td><%=t.getTo()%></td>
+					<td><%=t.getMode()%></td>
+					<td><%=t.getType()%></td>
+					<td><%=t.getDate().format(formatter)%></td>
+					<td><%=t.getAmount()%></td>
+
 				</tr>
-				<%} %>
-				
+				<%
+				}
+				%>
+
 			</tbody>
 		</table>
 	</div>

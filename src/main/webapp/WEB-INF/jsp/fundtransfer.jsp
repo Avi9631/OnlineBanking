@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 <html>
 
-<%if(session.getAttribute("userid") == null){
+<%
+if (session.getAttribute("userid") == null) {
 	response.sendRedirect("/");
 }
 %>
@@ -62,13 +63,21 @@ body {
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="/">HOME</a></li>
-					<%if(session.getAttribute("userid")!=null){ %>
+					<%
+					if (session.getAttribute("userid") != null) {
+					%>
 					<li><a href="/dashboard">CHECK BALANCE</a></li>
 					<li class="active"><a href="/fundtransfer">FUND TRANSFER</a></li>
-					<li><a href="/passbook?id=<%=session.getAttribute("userid")%>">PASSBOOK</a></li>
-					<li><a href="/profile?id=<%=session.getAttribute("userid")%>" >PROFILE</a></li>
-					<li><a onclick="if(confirm('Are you sure you want to log out')){window.location.href='/logout'}">LOGOUT</a></li>
-					<%} %>
+					<li><a href="/upitransfer">UPI</a></li>
+					<li><a href="/loan">LOAN</a></li>
+
+					<li><a href="/passbook">PASSBOOK</a></li>
+					<li><a href="/profile">PROFILE</a></li>
+					<li><a
+						onclick="if(confirm('Are you sure you want to log out')){window.location.href='/logout'}">LOGOUT</a></li>
+					<%
+					}
+					%>
 				</ul>
 			</div>
 		</div>
@@ -82,42 +91,47 @@ body {
 
 	<div style="width: 50%; margin: auto;">
 		<form action="/transfer" method="POST">
-		<input type="hidden" value="<%=session.getAttribute("userid") %>" name="id" />
+			<input type="hidden" value="<%=session.getAttribute("userid")%>"
+				name="id" />
 			<div class="form-group">
 				<label for="accno">Account Number : </label> <input type="number"
-					class="form-control" name="accno" id="accno" placeholder="****" required/>
+					class="form-control" name="accno" id="accno" placeholder="****"
+					required />
 			</div>
 			<div class="form-group">
 				<label for="ifsc">IFSC Code : </label> <input type="text"
-					class="form-control" name="ifsc" id="ifsc" placeholder="JHK*****" required/>
+					class="form-control" name="ifsc" id="ifsc" placeholder="JHK*****"
+					required />
 			</div>
 			<div class="form-group">
 				<label for="accname">Beneficiary Name : </label> <input type="text"
 					class="form-control" name="accname" id="accname"
-					placeholder="Eg: John****" required/>
+					placeholder="Eg: John****" required />
 			</div>
 			<div class="form-group">
 				<label for="amount">Amount To be Transfered : </label> <input
 					type="text" class="form-control" name="amount" id="amount"
-					placeholder="Rs.*** /-" required/>
+					placeholder="Rs.*** /-" required />
 			</div>
 			<div class="form-group">
-				<label for="mode">Select Mode of Transfer : </label>
-				<select name="mode" id="mode">
+				<label for="mode">Select Mode of Transfer : </label> <select
+					name="mode" id="mode">
 					<option value="IMPS">IMPS</option>
 					<option value="NEFT">NEFT</option>
 					<option value="IMPS">RTGS</option>
 				</select>
 			</div>
+			<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
 			<div class="form-group">
-				<button type="submit" class="btn btn-success" >
+				<button type="submit" class="btn btn-success">
 					<b>TRANSFER NOW</b>
 				</button>
 			</div>
 		</form>
 	</div>
 
-<script>
+	<script>
 function transfer() {
  var accno=	document.getElementById("accno").value;
  var accname=	document.getElementById("accname").value;
@@ -137,7 +151,7 @@ function transfer() {
     }};
 
  var data = `{
-	 'id': <%=session.getAttribute("userid") %>,
+	 'id': <%=session.getAttribute("userid")%>,
 	  'accno': accno,
 	  'accname': accname,
 	  'ifsc': ifsc,
@@ -146,31 +160,6 @@ function transfer() {
 
  xhr.send(data);
 
- 
-  <%--var x http = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      if(this.responseText == 1){
-    	  alert("Transaction successful!!");
-      }else if(this.responseText == -1){
-    	  alert("Insufficient Balance");
-      }else{
-    	  alert("Invalid Account Number");
-      }
-    }
-  };
-  xhttp.setRequestHeader("Accept", "application/json");
-  xhttp.setRequestHeader("Content-Type", "application/json");
-  xhttp.open("POST", "/transfer", true);
-  var linkData= {
-		  'id': <%=session.getAttribute("userid") %>,
-		  'accno': accno,
-		  'accname': accname,
-		  'ifsc': ifsc,
-		  'amount': amount
-  }
-  xhttp.send(linkData);
-   --%>
 }
 </script>
 

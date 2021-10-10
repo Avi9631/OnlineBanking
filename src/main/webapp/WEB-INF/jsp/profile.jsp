@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 <html>
 
-<%if(session.getAttribute("userid") == null){
+<%
+if (session.getAttribute("userid") == null) {
 	response.sendRedirect("/");
 }
 %>
@@ -68,9 +69,11 @@ body {
 					%>
 					<li><a href="/dashboard">CHECK BALANCE</a></li>
 					<li><a href="/fundtransfer">FUND TRANSFER</a></li>
-					<li><a href="/passbook?id=<%=session.getAttribute("userid")%>">PASSBOOK</a></li>
-					<li class="active"><a
-						href="/profile?id=<%=session.getAttribute("userid")%>">PROFILE</a></li>
+					<li><a href="/upitransfer">UPI</a></li>
+					<li><a href="/loan">LOAN</a></li>
+
+					<li><a href="/passbook">PASSBOOK</a></li>
+					<li class="active"><a href="/profile">PROFILE</a></li>
 					<li><a
 						onclick="if(confirm('Are you sure you want to log out')){window.location.href='/logout'}">LOGOUT</a></li>
 					<%
@@ -89,6 +92,9 @@ body {
 		<button class="btn btn-primary" style="width: 30%;"
 			data-toggle="modal" data-target="#edit-profile-modal"
 			data-ticket-type="premium-access">EDIT PROFILE</button>
+		<button class="btn btn-primary" style="width: 30%;"
+			data-toggle="modal" data-target="#ticket-profile-modal"
+			data-ticket-type="premium-access">Raise a Query</button>
 	</div>
 
 	<%
@@ -212,39 +218,78 @@ body {
 
 
 				<div class="modal-body ">
-					<form method="POST" action="/editprofile" onsubmit="return validate()">
-					<input type="hidden" name="id" value="<%=u.getId() %>"/>
+					<form method="POST" action="/editprofile"
+						onsubmit="return validate()">
+						<input type="hidden" name="id" value="<%=u.getId()%>" />
 						<div class="form-group">
-							<input class="form-control" type="email" name="email" id="email"
-								value="<%=u.getEmail()%>" required />
+							Name : <input class="form-control" type="text" name="name"
+								id="name" value="<%=u.getName()%>" required />
 						</div>
 						<div class="form-group">
-							<input class="form-control" type="text" name="name" id="name"
-								value="<%=u.getName()%>" required />
+							Phone : <input class="form-control" type="tel" name="phone"
+								id="phone" value="<%=u.getPhone()%>" required />
 						</div>
 						<div class="form-group">
-							<input class="form-control" type="tel" name="phone" id="phone"
-								value="<%=u.getPhone()%>" required />
-						</div>
-						<div class="form-group">
-							<input class="form-control" type="text" name="address"
+							Address : <input class="form-control" type="text" name="address"
 								id="address" value="<%=u.getAddress()%>" required />
 						</div>
 						<div class="form-group">
-							<input class="form-control" type="number" name="pin"
-								id="password" value="<%=u.getPin() %>" required />
+							Pin : <input class="form-control" type="number" name="pin"
+								id="password" value="<%=u.getPin()%>" required />
 						</div>
 						<div class="form-group">
-							<input class="form-control" type="password" name="password"
-								id="password" value="<%=u.getPassword() %>" required />
+							Password : <input class="form-control" type="password"
+								name="password" id="password" value="<%=u.getPassword()%>"
+								required />
 						</div>
-						<input type="submit" name="submit" value="Update"/>
+						<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
+						<input type="submit" name="submit" value="Update" />
 					</form>
 				</div>
 
 			</div>
 		</div>
 	</div>
+
+
+	<!-- Raise Ticket modal -->
+
+	<div id="ticket-profile-modal" class="modal fade">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title ">Raise Ticket</h4>
+
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+
+				<div class="modal-body ">
+					<form method="POST" action="/raisequery">
+						<input type="hidden" name="id" value="<%=u.getId()%>" />
+						<div class="form-group">
+							<label for="query">Write your Query :</label> <input
+								class="form-control" type="text" name="query" id="query"
+								required />
+						</div>
+						<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
+						<input type="submit" id="submit"
+							onclick="alert('Your query is submitted.')" name="submit"
+							value="SUBMIT YOUR QUERY" />
+					</form>
+					<p class="text-center">Your query will be answered in you
+						registered email.</p>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
 
 	<script type="text/javascript">
 		function validate() {

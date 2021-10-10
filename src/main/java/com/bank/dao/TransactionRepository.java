@@ -1,4 +1,4 @@
-package com.bank.controllers;
+package com.bank.dao;
 
 import java.util.List;
 
