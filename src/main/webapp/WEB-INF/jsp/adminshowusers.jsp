@@ -6,6 +6,12 @@
 <!DOCTYPE html>
 <html>
 
+<%
+if (session.getAttribute("userid") == null) {
+	response.sendRedirect("/");
+}
+%>
+
 <head>
 <title>Admin-Show all users</title>
 <meta charset="utf-8">

@@ -199,6 +199,25 @@ body {
 						</div>
 					</div>
 					<hr>
+					<div class="row">
+						<div class="col-sm-3">
+							<h5 class="mb-0">
+								<b>UPI ID</b>
+							</h5>
+						</div>
+						<div class="col-sm-9">
+							<h5>
+								<% if(u.getAccount().getUpi().equals("disable")){
+										out.println("Your UPI is not enabled");
+									}else{
+										out.println(u.getAccount().getUpi());
+									}
+								%>
+								
+							</h5>
+						</div>
+					</div>
+					<hr>
 				</div>
 			</div>
 		</div>
