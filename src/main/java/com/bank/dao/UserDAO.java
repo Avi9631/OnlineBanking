@@ -14,11 +14,6 @@ import com.bank.beans.LoanQuery;
 import com.bank.beans.RaiseTicket;
 import com.bank.beans.Transaction;
 import com.bank.beans.User;
-import com.bank.controllers.AccountRepository;
-import com.bank.controllers.LoanRepository;
-import com.bank.controllers.RaiseQueryRepository;
-import com.bank.controllers.TransactionRepository;
-import com.bank.controllers.UserRepository;
 
 @Service
 public class UserDAO {

@@ -1,5 +1,7 @@
 package com.bank.beans;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +19,7 @@ public class LoanQuery {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private int amount;
+	private LocalDateTime dateTime;
 	
 	@OneToOne(targetEntity = User.class, cascade = {CascadeType.ALL})
 	private User user;
@@ -38,10 +41,11 @@ public class LoanQuery {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	public LoanQuery(  int amount, User user) {
+	public LoanQuery(  int amount, User user, LocalDateTime dateTime) {
 		super();
 		this.amount = amount;
 		this.user = user;
+		this.dateTime= dateTime;
 	}
 
 	public User getUser() {
@@ -50,6 +54,14 @@ public class LoanQuery {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public LocalDateTime getDateTime() {
+		return dateTime;
+	}
+
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
 	}
 	
 	

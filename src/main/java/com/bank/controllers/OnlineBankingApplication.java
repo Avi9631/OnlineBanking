@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EntityScan("com.bank.beans")
-@EnableJpaRepositories("com.bank.controllers") // path of jpa repository 
+@EnableJpaRepositories("com.bank.dao") // path of jpa repository 
 public class OnlineBankingApplication {
 
 	public static void main(String[] args) {

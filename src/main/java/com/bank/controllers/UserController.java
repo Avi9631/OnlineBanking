@@ -245,7 +245,8 @@ public class UserController {
 	
 	@PostMapping("/loanrequest")
 	private String loanRequest(HttpSession session, @RequestParam("loanamt") int loanamt){
-		LoanQuery loanQuery= new LoanQuery(loanamt, userDAO.getUser(Integer.parseInt(String.valueOf(session.getAttribute("userid")))));
+		LoanQuery loanQuery= new LoanQuery(loanamt,
+				userDAO.getUser(Integer.parseInt(String.valueOf(session.getAttribute("userid")))), LocalDateTime.now());
 		userDAO.addLoanrequest(loanQuery);
 		return "redirect:/loan";
 	}
