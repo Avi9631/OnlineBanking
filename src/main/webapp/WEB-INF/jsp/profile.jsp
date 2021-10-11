@@ -207,13 +207,14 @@ body {
 						</div>
 						<div class="col-sm-9">
 							<h5>
-								<% if(u.getAccount().getUpi().equals("disable")){
-										out.println("Your UPI is not enabled");
-									}else{
-										out.println(u.getAccount().getUpi());
-									}
+								<%
+								if (u.getAccount().getUpi().equals("disable")) {
+									out.println("Your UPI is not enabled");
+								} else {
+									out.println(u.getAccount().getUpi());
+								}
 								%>
-								
+
 							</h5>
 						</div>
 					</div>
@@ -254,16 +255,17 @@ body {
 						</div>
 						<div class="form-group">
 							Pin : <input class="form-control" type="number" name="pin"
-								id="password" value="<%=u.getPin()%>" required />
+								id="pin" value="<%=u.getPin()%>" required />
 						</div>
 						<div class="form-group">
 							Password : <input class="form-control" type="password"
+							placeholder="Password (Min 8 characters, at least 1 lowercase and uppercase letter and one digit)"
 								name="password" id="password" value="<%=u.getPassword()%>"
 								required />
 						</div>
 						<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
-						<input type="submit" name="submit" value="Update" />
+							value="${_csrf.token}" /> <input type="submit" name="submit"
+							value="Update" />
 					</form>
 				</div>
 
@@ -296,8 +298,7 @@ body {
 								required />
 						</div>
 						<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
-						<input type="submit" id="submit"
+							value="${_csrf.token}" /> <input type="submit" id="submit"
 							onclick="alert('Your query is submitted.')" name="submit"
 							value="SUBMIT YOUR QUERY" />
 					</form>
@@ -312,18 +313,12 @@ body {
 
 	<script type="text/javascript">
 		function validate() {
-			var emailregex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
-			var x = document.getElementById("email").value;
 			if (document.getElementById("phone").value.length == 10
 					&& document.getElementById("address").value.length >= 5
-					&& document.getElementById("password").value.length >= 4
+					&& document.getElementById("password").value.length >= 8
 					&& document.getElementById("pin").value.length == 4
 					&& document.getElementById("name").value.length >= 3) {
-				if (x.match(emailregex)) {
-					return true;
-				} else {
-					return false;
-				}
+				return true;
 			} else {
 				alert("Invalid Form Data");
 				return false;

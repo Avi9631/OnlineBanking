@@ -160,7 +160,7 @@ body {
 					<div class="form-group">
 						<input class="form-control" type="password" name="password"
 							id="password"
-							placeholder="Password (Min 8 characters, at least 1 letter and one digit)"
+							placeholder="Password (Min 8 characters, at least 1 lowercase and uppercase letter and one digit)"
 							required />
 					</div>
 					<input type="hidden" name="${_csrf.parameterName}"
@@ -201,7 +201,7 @@ body {
 			var x = document.getElementById("email").value;
 			if (document.getElementById("phone").value.length == 10
 					&& document.getElementById("address").value.length >= 5
-					&& document.getElementById("password").value.length >= 7
+					&& document.getElementById("password").value.length >= 8
 					&& document.getElementById("aadharproof").value.length == 12
 					&& document.getElementById("pin").value.length == 4
 					&& document.getElementById("name").value.length >= 3) {

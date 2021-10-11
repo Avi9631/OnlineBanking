@@ -66,8 +66,7 @@ body {
 					<li><a href="/showall">MANAGE USERS</a></li>
 					<li><a href="/getallquery">MANAGE QUERY</a></li>
 					<li><a href="/adminloan">VIEW LOAN APPLICATIONS</a></li>
-					<li class="active"><a
-						href="/adminprofile">PROFILE</a></li>
+					<li class="active"><a href="/adminprofile">PROFILE</a></li>
 					<li><a
 						onclick="if(confirm('Are you sure you want to log out')){window.location.href='/logout';}">LOGOUT</a></li>
 				</ul>
@@ -197,33 +196,29 @@ body {
 						onsubmit="return validate()">
 						<input type="hidden" name="id" value="<%=u.getId()%>" />
 						<div class="form-group">
-							Name : 
-							<input class="form-control" type="text" name="name" id="name"
-								value="<%=u.getName()%>" required />
+							Name : <input class="form-control" type="text" name="name"
+								id="name" value="<%=u.getName()%>" required />
 						</div>
 						<div class="form-group">
-						Phone : 
-							<input class="form-control" type="tel" name="phone" id="phone"
-								value="<%=u.getPhone()%>" required />
+							Phone : <input class="form-control" type="tel" name="phone"
+								id="phone" value="<%=u.getPhone()%>" required />
 						</div>
 						<div class="form-group">
-						Address :
-							<input class="form-control" type="text" name="address"
+							Address : <input class="form-control" type="text" name="address"
 								id="address" value="<%=u.getAddress()%>" required />
 						</div>
 						<div class="form-group">
-						Pin : 
-							<input class="form-control" type="number" name="pin"
-								id="password" value="<%=u.getPin()%>" required />
+							Pin (4 digit pin): <input class="form-control" type="number" name="pin"
+								id="pin" value="<%=u.getPin()%>" required />
 						</div>
 						<div class="form-group">
-						Password : 
-							<input class="form-control" type="password" name="password"
-								id="password" value="<%=u.getPassword()%>" required />
+							Password (Min 8 characters, at least 1 lowercase and uppercase letter and one digit): <input class="form-control" type="password"
+								name="password" id="password" value="<%=u.getPassword()%>"
+								required />
 						</div>
 						<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
-						<input type="submit" name="submit" value="Update" />
+							value="${_csrf.token}" /> <input type="submit" name="submit"
+							value="Update" />
 					</form>
 				</div>
 
@@ -233,18 +228,12 @@ body {
 
 	<script type="text/javascript">
 		function validate() {
-			var emailregex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
-			var x = document.getElementById("email").value;
 			if (document.getElementById("phone").value.length == 10
 					&& document.getElementById("address").value.length >= 5
-					&& document.getElementById("password").value.length >= 4
+					&& document.getElementById("password").value.length >= 8
 					&& document.getElementById("pin").value.length == 4
 					&& document.getElementById("name").value.length >= 3) {
-				if (x.match(emailregex)) {
-					return true;
-				} else {
-					return false;
-				}
+				return true;
 			} else {
 				alert("Invalid Form Data");
 				return false;
