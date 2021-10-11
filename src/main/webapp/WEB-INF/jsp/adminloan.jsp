@@ -6,6 +6,11 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+<%
+if (session.getAttribute("userid") == null) {
+	response.sendRedirect("/");
+}
+%>
 
 <head>
 <title>Admin-Show Loan Applications</title>

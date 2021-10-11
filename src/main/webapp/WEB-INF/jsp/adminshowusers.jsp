@@ -6,6 +6,12 @@
 <!DOCTYPE html>
 <html>
 
+<%
+if (session.getAttribute("userid") == null) {
+	response.sendRedirect("/");
+}
+%>
+
 <head>
 <title>Admin-Show all users</title>
 <meta charset="utf-8">
@@ -119,7 +125,7 @@ body {
 					<td><%=u.getUser().getName()%></td>
 					<td><%=u.getAccType()%></td>
 					<td><%=u.getBal()%></td>
-					<%if (String.valueOf(session.getAttribute("role")).equals("USER")) {%>
+					<%if (u.getUser().getRole().equals("USER")) {%>
 					<td><a href="/viewdetail?id=<%=u.getUser().getId()%>"
 						type="button" class="btn btn-info">View Details</a> &nbsp;&nbsp; <a
 						onclick="if(confirm('Are you sure to close the account for <%=u.getUser().getName()%>')){window.location.href='/close?id=<%=u.getUser().getId()%>'}"

@@ -2,6 +2,7 @@ package com.bank.dao;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import javax.persistence.Id;
 
@@ -107,7 +108,7 @@ public class UserDAO {
 	   Account account= user.getAccount();
 	   String str[]= user.getName().split(" ");
 	   
-	   account.setUpi(str[0].toLowerCase()+user.getPhone().substring(7)+"@yesbank");
+	   account.setUpi(str[0].toLowerCase()+user.getPhone().substring(7)+new Random().nextInt(20) +"@yesbank");
 	   user.setAccount(account);
 	   userRepo.save(user);
 	}
