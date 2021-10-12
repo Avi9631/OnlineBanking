@@ -21,7 +21,7 @@ public class MyUserDetailService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Optional<User> user= userRepository.findByEmail(username);
 		
-		if (user.get()!=null) {
+		if (!user.isEmpty()) {
 			return user.map(MyUserDetails::new).get();
 		}else {
 			user.orElseThrow(() -> new UsernameNotFoundException("Not Found :" + username));

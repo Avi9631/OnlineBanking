@@ -50,7 +50,7 @@ public class UserDAO {
 //		} catch (Exception e) {
 //			return "Invalid PIN";
 //		}
-		if (user.get()!=null) {
+		if (!user.isEmpty()) {
 			Account account = user.get().getAccount();
 			return String.valueOf(account.getBal());
 		} else {
@@ -62,7 +62,7 @@ public class UserDAO {
 	public User getUser(int id) {
 		Optional<User> list = userRepo.findById(id);
 
-		if (list.get()!=null) {
+		if (!list.isEmpty()) {
 			return list.get();
 		} else {
 			return null;
@@ -82,7 +82,7 @@ public class UserDAO {
 		int toAcc = t.getTo();
 		Optional<Account> list1 = accRepo.findById(fromAcc);
 		Optional<Account> list2 = accRepo.findById(toAcc);
-		if (list1.get()!=null && list2.get()!=null) {
+		if (!list1.isEmpty() && !list2.isEmpty()) {
 			Account fromList = list1.get();
 			Account toList = list2.get();
 

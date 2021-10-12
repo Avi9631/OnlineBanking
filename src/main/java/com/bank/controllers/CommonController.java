@@ -68,7 +68,7 @@ public class CommonController {
 		   username = principal.toString();
 		}
 		Optional<User> userlist= userDAO.findByEmail(username);
-		if (userlist.get()!=null) {
+		if (!userlist.isEmpty()) {
 			User user = userlist.get();
 //			System.out.println(user.getName());
 			HttpSession session = request.getSession(true);
