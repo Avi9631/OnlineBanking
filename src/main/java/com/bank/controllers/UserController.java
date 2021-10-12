@@ -93,7 +93,7 @@ public class UserController {
 	public String transferFund(@RequestParam("id") int id, @RequestParam("accno") int accno,
 			@RequestParam("ifsc") String ifsc, @RequestParam("accname") String accname,
 			@RequestParam("amount") float amount, @RequestParam("mode") String mode, HttpServletRequest request) {
-		if (!userDAO.findAccount(accno).isEmpty()) {
+		if (userDAO.findAccount(accno).get()!=null) {
 			User user = userDAO.getUser(id);
 			if (user.getAccount().getBal() > 0 && (user.getAccount().getBal() - amount) >= 0) {
 				Transaction trans = new Transaction();
@@ -179,7 +179,7 @@ public class UserController {
 //		}
 
 		Optional<Account> accountList = userDAO.findAccountByUPI(upi);
-		if (!accountList.isEmpty()) {
+		if (accountList.get()!=null) {
 			Account account = accountList.get();
 			if (account != null) {
 				User user = userDAO.getUser(id);
