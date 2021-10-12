@@ -15,7 +15,7 @@ import com.bank.beans.User;
 
 @Service
 public class AdminDAO {
-	
+
 	@Autowired
 	private UserRepository userRepo;
 	@Autowired
@@ -26,51 +26,61 @@ public class AdminDAO {
 	private RaiseQueryRepository queryRepo;
 	@Autowired
 	private LoanRepository loanRepo;
-	
+
 	public List<Account> showAllUserDetails() {
 		return accRepo.findAll();
 	}
-	
+
 	public List<Transaction> fetchTransactionOfUser(int acc) {
-		List<Transaction> list= transacRepo.findAllByFrom(acc);
-		List<Transaction> list2= transacRepo.findAllByTo(acc);
-		for(Transaction t: list) {
+		List<Transaction> list = transacRepo.findAllByFrom(acc);
+		List<Transaction> list2 = transacRepo.findAllByTo(acc);
+		for (Transaction t : list) {
 			t.setType("DEBIT");
 		}
-		for(Transaction t: list2) {
+		for (Transaction t : list2) {
 			t.setType("CREDIT");
 		}
-		
+
 		list.addAll(list2);
-		list2=null;
+		list2 = null;
 		return list;
 	}
-	
+
 	public void closeAcccount(int id) {
 		userRepo.deleteById(id);
-		
+
 	}
-	
+
 	public User getUser(int id) {
-		return userRepo.findById(id).get();
+		Optional<User> list = userRepo.findById(id);
+		if (!list.isEmpty()) {
+			return list.get();
+		} else {
+			return null;
+		}
 	}
 
 	public List<Account> searchByAccount(int account) {
 		return accRepo.findAllById(Arrays.asList(account));
 	}
-	
+
 	public List<RaiseTicket> getAllQuery() {
 		return queryRepo.findAll();
 	}
-	
+
 	public RaiseTicket getQueryById(int id) {
-		return queryRepo.findById(id).get();
+		Optional<RaiseTicket> list = queryRepo.findById(id);
+		if (!list.isEmpty()) {
+			return list.get();
+		} else {
+			return null;
+		}
 	}
-	
+
 	public void updateQueryStatus(RaiseTicket query) {
 		queryRepo.save(query);
 	}
-	
+
 	public List<LoanQuery> getLoanApplicationdata() {
 		return loanRepo.findAll();
 	}

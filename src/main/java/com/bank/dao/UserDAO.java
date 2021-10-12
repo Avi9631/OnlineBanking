@@ -46,81 +46,96 @@ public class UserDAO {
 	public String getBalance(int id, String pin) {
 
 		Optional<User> user = userRepo.findByIdAndPin(id, pin);
-		try {
+//		try {
+//			Account account = user.get().getAccount();
+//			return String.valueOf(account.getBal());
+//		} catch (Exception e) {
+//			return "Invalid PIN";
+//		}
+		if (!user.isEmpty()) {
 			Account account = user.get().getAccount();
 			return String.valueOf(account.getBal());
-		} catch (Exception e) {
+		} else {
 			return "Invalid PIN";
 		}
 
 	}
-	
+
 	public User getUser(int id) {
-		return userRepo.findById(id).get();
+		Optional<User> list = userRepo.findById(id);
+
+		if (!list.isEmpty()) {
+			return list.get();
+		} else {
+			return null;
+		}
 	}
-	
+
 	public Optional<Account> findAccount(int id) {
 		return accRepo.findById(id);
 	}
+
 	public Optional<Account> findAccountByUPI(String upi) {
 		return accRepo.findByUpi(upi);
 	}
-	
+
 	public void transferFund(Transaction t) {
-		int fromAcc= t.getFrom();
-		int toAcc= t.getTo();
-		
-		Account fromList= accRepo.findById(fromAcc).get();
-		Account toList= accRepo.findById(toAcc).get();
-		
-		fromList.setBal(fromList.getBal() - t.getAmount());
-		toList.setBal(toList.getBal() + t.getAmount());
-		
-		accRepo.save(fromList);
-		accRepo.save(toList);transacRepo.save(t);
-		
+		int fromAcc = t.getFrom();
+		int toAcc = t.getTo();
+		Optional<Account> list1 = accRepo.findById(fromAcc);
+		Optional<Account> list2 = accRepo.findById(toAcc);
+		if (!list1.isEmpty() && !list2.isEmpty()) {
+			Account fromList = list1.get();
+			Account toList = list2.get();
+
+			fromList.setBal(fromList.getBal() - t.getAmount());
+			toList.setBal(toList.getBal() + t.getAmount());
+
+			accRepo.save(fromList);
+			accRepo.save(toList);
+			transacRepo.save(t);
+		}
+
 	}
-	
-	public List<Transaction>  getAllTransactions(int id) {
-		User user= getUser(id);
-		List<Transaction> list= transacRepo.findAllByFrom(user.getAccount().getAccno());
-		List<Transaction> list2= transacRepo.findAllByTo(user.getAccount().getAccno());
-		for(Transaction t: list) {
+
+	public List<Transaction> getAllTransactions(int id) {
+		User user = getUser(id);
+		List<Transaction> list = transacRepo.findAllByFrom(user.getAccount().getAccno());
+		List<Transaction> list2 = transacRepo.findAllByTo(user.getAccount().getAccno());
+		for (Transaction t : list) {
 			t.setType("DEBIT");
 		}
-		for(Transaction t: list2) {
+		for (Transaction t : list2) {
 			t.setType("CREDIT");
 		}
-		
+
 		list.addAll(list2);
-		list2=null;
+		list2 = null;
 		return list;
-	}	
-	
-	
+	}
+
 	public void updateUser(User user) {
 		userRepo.save(user);
 	}
-	
-	
+
 	public void enableUpi(int id) {
-	   User user=	getUser(id);
-	   Account account= user.getAccount();
-	   String str[]= user.getName().split(" ");
-	   
-	   account.setUpi(str[0].toLowerCase()+user.getPhone().substring(7)+new Random().nextInt(20) +"@yesbank");
-	   user.setAccount(account);
-	   userRepo.save(user);
+		User user = getUser(id);
+		Account account = user.getAccount();
+		String str[] = user.getName().split(" ");
+
+		account.setUpi(str[0].toLowerCase() + user.getPhone().substring(7) + new Random().nextInt(20) + "@yesbank");
+		user.setAccount(account);
+		userRepo.save(user);
 	}
-	
+
 	public void addQuery(RaiseTicket ticket) {
 		queryRepo.save(ticket);
 	}
-	
+
 	public void addLoanrequest(LoanQuery loan) {
 		loanRepo.save(loan);
 	}
-	
+
 	public Optional<User> findByEmail(String email) {
 		return userRepo.findByEmail(email);
 	}

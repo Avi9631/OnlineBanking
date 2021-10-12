@@ -1,6 +1,7 @@
 package com.bank.controllers;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -64,9 +65,10 @@ public class CommonController {
 		   username = principal.toString();
 		}
 		System.out.println(username);
-		User user = userDAO.findByEmail(username).get();
-		System.out.println(user.getName());
-		if (user != null) {
+		Optional<User> userlist= userDAO.findByEmail(username);
+		if (!userlist.isEmpty()) {
+			User user = userlist.get();
+			System.out.println(user.getName());
 			HttpSession session = request.getSession(true);
 			session.setAttribute("userid", user.getId());
 			session.setAttribute("role", user.getRole());
