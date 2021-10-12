@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,8 +32,11 @@ public class CommonController {
 	@Autowired
 	private UserDAO userDAO;
 	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+	
 	@GetMapping("/logoutsession")
-	private String logout(HttpServletRequest request) {
+	public String logout(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.invalidate();
 		return "redirect:/";
@@ -39,23 +44,21 @@ public class CommonController {
 	
 	@GetMapping("/error")
 	@ResponseBody
-	private String error() {
-		System.out.println("=---------------------------error--------------------------");
+	public String error() {
+//		System.out.println("=---------------------------error--------------------------");
 		return "WELCOME BUDDY";
 	}
 	
 	@GetMapping("/check")
 	@ResponseBody
-	private String check(HttpServletRequest request) {
-		System.out.println("=---------------------------check--------------------------");
-
-		HttpSession session = request.getSession();
+	public String check() {
+//		System.out.println("=---------------------------check--------------------------");
 		return "WELCOME CHECK";
 	}
 
 	@GetMapping("/loginsetsession")
-	private String login(HttpServletRequest request) {
-		System.out.println("=---------------------------Mthode--------------------------");
+	public String login(HttpServletRequest request) {
+//		System.out.println("=---------------------------Mthode--------------------------");
 		
 		String username="";
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -64,11 +67,10 @@ public class CommonController {
 		} else {
 		   username = principal.toString();
 		}
-		System.out.println(username);
 		Optional<User> userlist= userDAO.findByEmail(username);
 		if (!userlist.isEmpty()) {
 			User user = userlist.get();
-			System.out.println(user.getName());
+//			System.out.println(user.getName());
 			HttpSession session = request.getSession(true);
 			session.setAttribute("userid", user.getId());
 			session.setAttribute("role", user.getRole());
@@ -83,12 +85,12 @@ public class CommonController {
 	}
 
 	@PostMapping("/register")
-	private String register(@RequestParam("email") String email, @RequestParam("password") String password,
+	public String register(@RequestParam("email") String email, @RequestParam("password") String password,
 			@RequestParam("name") String name, @RequestParam("pin") String pin, @RequestParam("phone") String phone,
 			@RequestParam("state") String state, @RequestParam("address") String address,
 			@RequestParam("aadharproof") String aadharproof) {
 
-		User user = new User(name, email, password, pin, phone, "USER", state, address, "Not Approved", aadharproof,
+		User user = new User(name, email, passwordEncoder.encode(password), pin, phone, "USER", state, address, "Not Approved", aadharproof,
 				null);
 		String ifsc="";
 		switch (state) {

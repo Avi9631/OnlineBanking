@@ -4,10 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import javax.persistence.Id;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import com.bank.beans.Account;
@@ -110,7 +108,6 @@ public class UserDAO {
 		}
 
 		list.addAll(list2);
-		list2 = null;
 		return list;
 	}
 

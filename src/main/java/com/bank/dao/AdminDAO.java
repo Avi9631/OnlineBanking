@@ -42,7 +42,6 @@ public class AdminDAO {
 		}
 
 		list.addAll(list2);
-		list2 = null;
 		return list;
 	}
 
