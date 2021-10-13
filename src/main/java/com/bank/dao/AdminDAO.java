@@ -52,7 +52,7 @@ public class AdminDAO {
 
 	public User getUser(int id) {
 		Optional<User> list = userRepo.findById(id);
-		if (!list.isEmpty()) {
+		if (list.isPresent()) {
 			return list.get();
 		} else {
 			return null;
@@ -69,7 +69,7 @@ public class AdminDAO {
 
 	public RaiseTicket getQueryById(int id) {
 		Optional<RaiseTicket> list = queryRepo.findById(id);
-		if (!list.isEmpty()) {
+		if (list.isPresent()) {
 			return list.get();
 		} else {
 			return null;
