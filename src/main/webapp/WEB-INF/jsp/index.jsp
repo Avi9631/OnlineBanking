@@ -206,17 +206,25 @@ body {
 					&& document.getElementById("pin").value.length == 4
 					&& document.getElementById("name").value.length >= 3) {
 				if (x.match(emailregex)) {
-					var n1 = Math.floor(Math.random() * 10) + 1;
-					var n2 = Math.floor(Math.random() * 10) + 1;
-					var result = parseInt(prompt("Enter the Result for verification: "
-							+ n1 + " + " + n2 + " = "));
-					if (result == (n1 + n2)) {
-						alert("Registration Successfull ! Now you can Login");
-						return true;
-					} else {
-						alert("Verification failed!! Try Again!");
+					if(prompt(" Please enter the 4 digit pin again.") == 
+						document.getElementById("pin").value.trim()){
+						
+						var n1 = Math.floor(Math.random() * 10) + 1;
+						var n2 = Math.floor(Math.random() * 10) + 1;
+						var result = parseInt(prompt("Enter the Result for verification: "
+								+ n1 + " + " + n2 + " = "));
+						if (result == (n1 + n2)) {
+							alert("Registration Successfull ! Now you can Login");
+							return true;
+						} else {
+							alert("Verification failed!! Try Again!");
+							return false;
+						}
+					}else{
+						alert("Pin do not match try again");
 						return false;
 					}
+
 				} else {
 					alert("Invalid Form Data");
 					return false;

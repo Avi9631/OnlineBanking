@@ -208,13 +208,16 @@ body {
 								id="address" value="<%=u.getAddress()%>" required />
 						</div>
 						<div class="form-group">
-							Pin (4 digit pin): <input class="form-control" type="number" name="pin"
-								id="pin" value="<%=u.getPin()%>" required />
+							Pin (4 digit pin): <input class="form-control" type="number"
+								name="pin" id="pin" value="<%=u.getPin()%>" required />
 						</div>
+
 						<div class="form-group">
-							Password (Min 8 characters, at least 1 lowercase and uppercase letter and one digit): <input class="form-control" type="password"
-								name="password" id="password" value="<%=u.getPassword()%>"
-								required />
+							Password (Min 8 characters, at least 1 lowercase and uppercase
+							letter and one digit): <input class="form-control"
+								type="password" name="password" id="password"
+								 placeholder="Enter the pasword" required
+								/>
 						</div>
 						<input type="hidden" name="${_csrf.parameterName}"
 							value="${_csrf.token}" /> <input type="submit" name="submit"
@@ -230,7 +233,7 @@ body {
 		function validate() {
 			if (document.getElementById("phone").value.length == 10
 					&& document.getElementById("address").value.length >= 5
-					&& document.getElementById("password").value.length >= 8
+					&& (document.getElementById("password").value.length >= 8)
 					&& document.getElementById("pin").value.length == 4
 					&& document.getElementById("name").value.length >= 3) {
 				return true;
